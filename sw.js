@@ -1,5 +1,5 @@
 // Service worker : permet d'ouvrir le site sans connexion.
-const V = "artisanat-v1";
+const V = "artisanat-v2";
 const PHOTOS = "photos-v1";
 const BASE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
@@ -31,6 +31,19 @@ self.addEventListener("fetch", (e) => {
           if (net.ok || net.type === "opaque") c.put(r, net.clone());
           return net;
         } catch { return Response.error(); }
+      })
+    );
+    return;
+  }
+
+  // Bibliothèques PDF : cache d'abord
+  if (u.hostname === "cdnjs.cloudflare.com") {
+    e.respondWith(
+      caches.open(PHOTOS).then(async (c) => {
+        const hit = await c.match(r);
+        if (hit) return hit;
+        try { const net = await fetch(r); if (net.ok) c.put(r, net.clone()); return net; }
+        catch { return Response.error(); }
       })
     );
     return;
