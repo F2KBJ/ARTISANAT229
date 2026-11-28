@@ -1,5 +1,5 @@
 // Service worker : permet d'ouvrir le site sans connexion.
-const V = "artisanat-v5";
+const V = "artisanat-v6";
 const PHOTOS = "photos-v1";
 const BASE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
